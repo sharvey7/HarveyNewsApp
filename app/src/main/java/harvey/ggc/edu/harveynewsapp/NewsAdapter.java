@@ -12,11 +12,10 @@ import java.util.ArrayList;
 public class NewsAdapter extends ArrayAdapter<News>{
     private static final String LOCATION_SEPERATOR = "of";
 
-    private int mColorResourceId;
 
-    public NewsAdapter(Activity context, ArrayList<News> news, int colorResourceId){
+    public NewsAdapter(Activity context, ArrayList<News> news){
         super(context, 0, news);
-        mColorResourceId = colorResourceId;
+        //mColorResourceId = colorResourceId;
     }
 public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent){
         View listItemView = convertView;
@@ -25,6 +24,12 @@ public View getView(int position, @Nullable View convertView, @Nullable ViewGrou
 
             News currentNews = getItem(position);
 
+            String originalSection = currentNews.getSection();
+
+            if(originalSection.contains(LOCATION_SEPERATOR)){
+                String[] parts = originalSection.split(LOCATION_SEPERATOR);
+                
+            }
 
         }
 
