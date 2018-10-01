@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String USGS_REQUEST_URL="";
     //api key?
     private TextView mEmptyStateTextView;
+    public String requestURL = "https://content.guardianapis.com/search?api-key=8790b10f-4581-4c81-9927-38d186e5e689";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-
     @Override
+
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle){
         return new NewsLoader(this, USGS_REQUEST_URL);
     }

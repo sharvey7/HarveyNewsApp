@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -15,21 +16,29 @@ public class NewsAdapter extends ArrayAdapter<News>{
 
     public NewsAdapter(Activity context, ArrayList<News> news){
         super(context, 0, news);
-        //mColorResourceId = colorResourceId;
+
     }
 public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent){
         View listItemView = convertView;
         if(listItemView == null){
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false );
 
+            //the views
+            TextView articleName = convertView.findViewById(R.id.names);
+            TextView articleAuthor = convertView.findViewById(R.id.author_textview);
+            TextView dateArticle = convertView.findViewById(R.id.date_textview);
+
+
+            //current updated news
             News currentNews = getItem(position);
 
-            String originalSection = currentNews.getSection();
+            articleName.setText(currentNews.getArticleName());
+            articleAuthor.setText(currentNews.getArticleName());
+            dateArticle.setText(currentNews.getDateArticle());
 
-            if(originalSection.contains(LOCATION_SEPERATOR)){
-                String[] parts = originalSection.split(LOCATION_SEPERATOR);
-                
-            }
+
+
+
 
         }
 

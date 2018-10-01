@@ -1,31 +1,31 @@
 package harvey.ggc.edu.harveynewsapp;
 
 public class News {
-    private String mName;
+    private String mArticleName;
     private String mUrl;
-    private String mSection;
-    private String mAuthor;
+    private String mDateArticle;
+    private String mArticleAuthor;
 
 
-    public News(String name, String url, String section, String author) {
-        mName = name;
+    public News(String articleName, String url, String dateArticle, String articleAuthor) {
+        mArticleName = articleName;
         mUrl = url;
-        mSection = section;
-        mAuthor = author;
+        mDateArticle = dateArticle;
+        mArticleAuthor = articleAuthor;
     }
-    public String getName(){
-       return mName;
+    public String getArticleName(){
+       return mArticleName;
     }
 
     public String getUrl(){
         return mUrl;
     }
-    public String getSection(){
-        return mSection;
+    public String getDateArticle(){
+        return mDateArticle;
     }
 
-    public String getAuthor(){
-        return mAuthor;
+    public String getArticleAuthor(){
+        return mArticleAuthor;
     }
 
 }
