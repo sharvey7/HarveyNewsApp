@@ -20,9 +20,12 @@ import java.util.List;
 
 public class QueryUtils {
 
-    private static final String LOGTAG = QueryUtils.class.getName();
+    private static final String LOG_TAG = QueryUtils.class.getName();
 
-    private static final String TAG = QueryUtils.class.getSimpleName(); //maybe
+    //private static final String TAG = QueryUtils.class.getSimpleName(); //maybe
+    private static final String SAMPLE_JSON_RESPONSE = "https://content.guardianapis.com/search?api-key=8790b10f-4581-4c81-9927-38d186e5e689" ;
+
+
 
     private QueryUtils() {
 
@@ -40,7 +43,7 @@ public class QueryUtils {
         try {
             jsonResponse = makeHttpRequest(url);
         }catch (IOException e) {
-            Log.e(LOGTAG, "Problem making the HTTP request", e);
+            Log.e(LOG_TAG, "Problem making the HTTP request", e);
         }
             List<News> news = extractFeatureFromJson(jsonResponse);
             return news;
@@ -75,10 +78,10 @@ public class QueryUtils {
                     inputStream = urlConnection.getInputStream();
                     jsonResponse = readFromStream(inputStream);
                 } else {
-                    Log.e(LOGTAG, "Error response code:" + urlConnection.getResponseCode());
+                    Log.e(LOG_TAG, "Error response code:" + urlConnection.getResponseCode());
                 }
             }catch(IOException e) {
-                Log.e(LOGTAG, "Problem retreiving the news JSON result!");
+                Log.e(LOG_TAG, "Problem retreiving the news JSON result!");
             }
             finally{
                 if(urlConnection != null){

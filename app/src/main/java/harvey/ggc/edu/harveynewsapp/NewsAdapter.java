@@ -24,7 +24,7 @@ public View getView(int position, @Nullable View convertView, @Nullable ViewGrou
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false );
 
             //the views
-            TextView articleName = convertView.findViewById(R.id.names);
+            TextView articleName = convertView.findViewById(R.id.names_textview);
             TextView articleAuthor = convertView.findViewById(R.id.author_textview);
             TextView dateArticle = convertView.findViewById(R.id.date_textview);
 
@@ -33,7 +33,7 @@ public View getView(int position, @Nullable View convertView, @Nullable ViewGrou
             News currentNews = getItem(position);
 
             articleName.setText(currentNews.getArticleName());
-            articleAuthor.setText(currentNews.getArticleName());
+            articleAuthor.setText(currentNews.getArticleAuthor());
             dateArticle.setText(currentNews.getDateArticle());
 
 
