@@ -2,6 +2,7 @@ package harvey.ggc.edu.harveynewsapp;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,8 @@ public View getView(int position, @Nullable View convertView, @Nullable ViewGrou
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false );
 
             //the views
-            TextView articleName = convertView.findViewById(R.id.names_textview);
+            TextView articleName = convertView.findViewById(R.id.names_textview);  //issues here, exception on a null object reference
+           // Log.i(" textview an exception", TextView articleName= convertView.findViewById(R.id.names_textview));
             TextView articleAuthor = convertView.findViewById(R.id.author_textview);
             TextView dateArticle = convertView.findViewById(R.id.date_textview);
 

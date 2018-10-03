@@ -45,7 +45,7 @@ public class QueryUtils {
         }catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request", e);
         }
-            List<News> news = extractFeatureFromJson(jsonResponse);
+            List<News> news = extractFeatureFromJson(jsonResponse); //issue here
             return news;
     }
 
@@ -59,7 +59,9 @@ public class QueryUtils {
             return url;
         }
 
+
         public static String makeHttpRequest(URL url) throws IOException{
+            Log.i(LOG_TAG, "incoming url is " + "https://content.guardianapis.com/search?api-key=8790b10f-4581-4c81-9927-38d186e5e689" );
             String jsonResponse = "";
             if(url == null) {
                 return jsonResponse;
@@ -81,7 +83,7 @@ public class QueryUtils {
                     Log.e(LOG_TAG, "Error response code:" + urlConnection.getResponseCode());
                 }
             }catch(IOException e) {
-                Log.e(LOG_TAG, "Problem retreiving the news JSON result!");
+                Log.e(LOG_TAG, "Problem retrieving the news JSON result!");
             }
             finally{
                 if(urlConnection != null){
@@ -121,15 +123,16 @@ public class QueryUtils {
                 JSONObject baseJSONResponse = new JSONObject(jsonResponse);
 
                 JSONObject baseJSONResponseResult = baseJSONResponse.getJSONObject("response");
-                JSONArray newsArray = baseJSONResponseResult.getJSONArray("results");
+                //Log.i(TAG, "newsArray length: " + newsArray.length());
+                JSONArray currentNews = baseJSONResponseResult.getJSONArray("results");
 
-                for(int i = 0; i< newsArray.length(); i++){
-                    JSONObject currentNews = newsArray.getJSONObject(i);
-                    JSONObject properties = currentNews.getJSONObject("properties");
-                     name = properties.getString("Name of article");
-                     author = properties.getString("Author's name");
-                     date = properties.getString("Section of article");
-                     url = properties.getString("url");
+                for(int i = 0; i< currentNews.length(); i++){
+                  //  JSONObject currentNews = newsArray.getJSONObject(i);
+                    JSONObject localNews = currentNews.getJSONObject(i);
+                     name = localNews.getString("webTitle");
+                     author = localNews.getString("sectionId");
+                     date = localNews.getString("webPublicationDate");
+                     url = localNews.getString("webUrl");
 
                     //String url = properties.getString("url");
 
