@@ -22,11 +22,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final String LOG_TAG = MainActivity.class.getName();
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mAdapter;
-    private static final String USGS_REQUEST_URL="https://content.guardianapis.com/search?api-key=8790b10f-4581-4c81-9927-38d186e5e689";
-    //api key?
+    private static final String USGS_REQUEST_URL = "http://content.guardianapis.com/search?q=debates&api-key=test&show-tags=contributor";
     private TextView mEmptyStateTextView;
-   // public String requestURL = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +35,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         newsListView.setEmptyView(mEmptyStateTextView);
 
-       // final NewsAdapter adapter = new NewsAdapter(this, news, R.color.colorPrimary);
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
 
         newsListView.setAdapter(mAdapter);
 
         newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                News currentNews = mAdapter.getItem(position);
-                Uri newsUri = Uri.parse(currentNews.getUrl());
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
-                startActivity(websiteIntent);
+                                                @Override
+                                                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                                                    News currentNews = mAdapter.getItem(position);
+                                                    Uri newsUri = Uri.parse(currentNews.getUrl());
+                                                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW, newsUri);
+                                                    startActivity(websiteIntent);
                                                 }
                                             }
         );
@@ -57,37 +53,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        if(networkInfo != null && networkInfo.isConnected()){
+        if (networkInfo != null && networkInfo.isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
+        } else {
 
-        }
-        else{
-            mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
     }
 
-
     @Override
-
-    public Loader<List<News>> onCreateLoader(int i, Bundle bundle){
+    public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
         return new NewsLoader(this, USGS_REQUEST_URL);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<News>> loader, List<News> news){
-       // View loadingIndicator = findViewById(R.id.loading_indicator);
-        //loadingIndicator.setVisibility(View.GONE);
+    public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
 
         mAdapter.clear();
-        if(news != null && !news.isEmpty()){
+        if (news != null && !news.isEmpty()) {
             mAdapter.addAll(news);
             mEmptyStateTextView.setText(R.string.info);
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<List<News>>Loader){
+    public void onLoaderReset(Loader<List<News>> Loader) {
+        mEmptyStateTextView.setText(R.string.no_internet_connection);
         mAdapter.clear();
     }
 }

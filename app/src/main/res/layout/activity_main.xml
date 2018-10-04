@@ -20,7 +20,4 @@
         android:id="@+id/empty_view"
         />
 
-
-
-
 </RelativeLayout>

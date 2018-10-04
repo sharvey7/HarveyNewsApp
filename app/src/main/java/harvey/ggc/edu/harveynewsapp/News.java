@@ -6,8 +6,7 @@ public class News {
     private String mDateArticle;
     private String mArticleAuthor;
 
-
-    public News(String articleName, String url, String dateArticle, String articleAuthor) {
+    public News(String articleName, String articleAuthor, String dateArticle, String url) {
         mArticleName = articleName;
         mUrl = url;
         mDateArticle = dateArticle;
