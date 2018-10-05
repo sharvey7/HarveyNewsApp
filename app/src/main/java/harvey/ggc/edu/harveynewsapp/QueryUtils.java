@@ -23,6 +23,10 @@ public class QueryUtils {
     private static final String LOG_TAG = QueryUtils.class.getName();
     private static final String SAMPLE_JSON_RESPONSE = "http://content.guardianapis.com/search?q=debates&api-key=test&show-tags=contributor";
 
+    private static String name;
+   private static  String author;
+    private static String date;
+    private static String url;
     private QueryUtils() {
     }
 
@@ -105,10 +109,6 @@ public class QueryUtils {
     }
 
     private static List<News> extractFeatureFromJson(String jsonResponse) {
-        String name;
-        String author;
-        String date;
-        String url;
 
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
@@ -146,8 +146,7 @@ public class QueryUtils {
 
 
             }
-            //variables not initialized
-            
+
             News news1 = new News(name, url, date, author);
             news.add(news1);
 
