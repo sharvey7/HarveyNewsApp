@@ -146,6 +146,8 @@ public class QueryUtils {
 
 
             }
+            //variables not initialized
+            
             News news1 = new News(name, url, date, author);
             news.add(news1);
 
