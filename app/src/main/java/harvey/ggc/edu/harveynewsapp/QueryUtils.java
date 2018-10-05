@@ -122,40 +122,37 @@ public class QueryUtils {
 
 
             JSONArray currentNews = baseJSONResponseResult.getJSONArray("results");
+            JSONObject localNews = null;
             for (int i = 0; i < currentNews.length(); i++) {
                 author = "No Author!";
-                JSONObject localNews = currentNews.getJSONObject(i);
+                localNews = currentNews.getJSONObject(i);
                 name = localNews.getString("webTitle");
                 url = localNews.getString("webUrl");
                 date = localNews.getString("webPublicationDate");
-                JSONArray authorResults = localNews.getJSONArray("tags");
-
+                //JSONArray authorResults = localNews.getJSONArray("tags");
             }
 
+            JSONArray authorResults = localNews.getJSONArray("tags");
 
+            if (authorResults == null) {
+                author = " ";
+            } else {
+                for (int s = 0; s < authorResults.length(); s++) {
+                    JSONObject currentInfo = authorResults.getJSONObject(s);
 
-                JSONArray authorResults = localNews.getJSONArray("tags");
+                    author = currentInfo.getString("webTitle");
 
-                if (authorResults == null) {
-                    author = " ";
-                } else {
-                    for (int s = 0; s < authorResults.length(); s++) {
-                        JSONObject currentInfo = authorResults.getJSONObject(s);
-
-                        author = currentInfo.getString("webTitle");
-
-
-                    }
-
-
-                    News news1 = new News(name, url, date, author);
-                    news.add(news1);
                 }
-            } catch(JSONException e){
+
+
+            }
+            News news1 = new News(name, url, date, author);
+            news.add(news1);
+
+        } catch(JSONException e){
                     Log.e("QueryUtils", "Problem parsing the news JSON results", e);
                 }
                     return news;
                 }
 
             }
-        }
