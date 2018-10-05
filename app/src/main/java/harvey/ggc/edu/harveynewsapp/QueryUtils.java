@@ -119,24 +119,37 @@ public class QueryUtils {
             JSONObject baseJSONResponse = new JSONObject(jsonResponse);
 
             JSONObject baseJSONResponseResult = baseJSONResponse.getJSONObject("response");
-            JSONArray currentNews = baseJSONResponseResult.getJSONArray("results");
 
+
+            JSONArray currentNews = baseJSONResponseResult.getJSONArray("results");
             for (int i = 0; i < currentNews.length(); i++) {
+                author = "No Author!";
                 JSONObject localNews = currentNews.getJSONObject(i);
                 name = localNews.getString("webTitle");
                 url = localNews.getString("webUrl");
                 date = localNews.getString("webPublicationDate");
 
+                JSONArray authorResults = currentNews.getJSONArray(Integer.parseInt("tags"));
 
-                author = localNews.getString("tags");
+                if (authorResults == null) {
+                    author = " ";
+                } else {
+                    for (int s = 0; s < authorResults.length(); s++) {
+                        JSONObject currentInfo = authorResults.getJSONObject(s);
 
-                News news1 = new News(name, url, date, author);
-                news.add(news1);
+                        author = currentInfo.getString("webTitle");
+
+                    }
+
+
+                    News news1 = new News(name, url, date, author);
+                    news.add(news1);
+                }
+            } catch(JSONException e){
+                Log.e("QueryUtils", "Problem parsing the news JSON results", e);
             }
-        } catch (JSONException e) {
-            Log.e("QueryUtils", "Problem parsing the news JSON results", e);
+            return news;
         }
-        return news;
-    }
 
+    }
 }
