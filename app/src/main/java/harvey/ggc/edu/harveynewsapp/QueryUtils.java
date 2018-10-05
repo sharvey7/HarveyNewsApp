@@ -23,10 +23,6 @@ public class QueryUtils {
     private static final String LOG_TAG = QueryUtils.class.getName();
     private static final String SAMPLE_JSON_RESPONSE = "http://content.guardianapis.com/search?q=debates&api-key=test&show-tags=contributor";
 
-    private static String name;
-   private static  String author;
-    private static String date;
-    private static String url;
     private QueryUtils() {
     }
 
@@ -109,6 +105,10 @@ public class QueryUtils {
     }
 
     private static List<News> extractFeatureFromJson(String jsonResponse) {
+        String name;
+        String author;
+        String date;
+        String url;
 
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
@@ -120,7 +120,6 @@ public class QueryUtils {
 
             JSONObject baseJSONResponseResult = baseJSONResponse.getJSONObject("response");
 
-
             JSONArray currentNews = baseJSONResponseResult.getJSONArray("results");
             JSONObject localNews = null;
             for (int i = 0; i < currentNews.length(); i++) {
@@ -129,7 +128,10 @@ public class QueryUtils {
                 name = localNews.getString("webTitle");
                 url = localNews.getString("webUrl");
                 date = localNews.getString("webPublicationDate");
-                //JSONArray authorResults = localNews.getJSONArray("tags");
+                JSONArray authorResults = localNews.getJSONArray("tags");
+
+                News news1 = new News(name, url, date, author);
+                news.add(news1);
             }
 
             JSONArray authorResults = localNews.getJSONArray("tags");
@@ -143,17 +145,12 @@ public class QueryUtils {
                     author = currentInfo.getString("webTitle");
 
                 }
-
-
             }
 
-            News news1 = new News(name, url, date, author);
-            news.add(news1);
+        } catch (JSONException e) {
+            Log.e("QueryUtils", "Problem parsing the news JSON results", e);
+        }
+        return news;
+    }
 
-        } catch(JSONException e){
-                    Log.e("QueryUtils", "Problem parsing the news JSON results", e);
-                }
-                    return news;
-                }
-
-            }
+}
