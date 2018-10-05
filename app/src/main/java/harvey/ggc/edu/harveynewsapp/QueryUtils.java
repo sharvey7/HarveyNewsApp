@@ -128,8 +128,13 @@ public class QueryUtils {
                 name = localNews.getString("webTitle");
                 url = localNews.getString("webUrl");
                 date = localNews.getString("webPublicationDate");
+                JSONArray authorResults = localNews.getJSONArray("tags");
 
-                JSONArray authorResults = currentNews.getJSONArray(Integer.parseInt("tags"));
+            }
+
+
+
+                JSONArray authorResults = localNews.getJSONArray("tags");
 
                 if (authorResults == null) {
                     author = " ";
@@ -139,6 +144,7 @@ public class QueryUtils {
 
                         author = currentInfo.getString("webTitle");
 
+
                     }
 
 
@@ -146,10 +152,10 @@ public class QueryUtils {
                     news.add(news1);
                 }
             } catch(JSONException e){
-                Log.e("QueryUtils", "Problem parsing the news JSON results", e);
-            }
-            return news;
-        }
+                    Log.e("QueryUtils", "Problem parsing the news JSON results", e);
+                }
+                    return news;
+                }
 
-    }
-}
+            }
+        }
