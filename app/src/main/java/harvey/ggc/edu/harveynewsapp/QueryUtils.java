@@ -29,18 +29,13 @@ public class QueryUtils {
     public static List<News> fetchNewsData(String requestUrl) {
         URL url = createUrl(requestUrl);
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request", e);
         }
-        List<News> news = extractFeatureFromJson(jsonResponse); //issue here
+        List<News> news = extractFeatureFromJson(jsonResponse);
         return news;
     }
 
@@ -105,10 +100,7 @@ public class QueryUtils {
     }
 
     private static List<News> extractFeatureFromJson(String jsonResponse) {
-        String name;
-        String author;
-        String date;
-        String url;
+
 
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
@@ -121,20 +113,39 @@ public class QueryUtils {
             JSONObject baseJSONResponseResult = baseJSONResponse.getJSONObject("response");
 
             JSONArray currentNews = baseJSONResponseResult.getJSONArray("results");
-            JSONObject localNews = null;
+           // JSONObject localNews = null;
             for (int i = 0; i < currentNews.length(); i++) {
-                author = "No Author!";
-                localNews = currentNews.getJSONObject(i);
-                name = localNews.getString("webTitle");
-                url = localNews.getString("webUrl");
-                date = localNews.getString("webPublicationDate");
-                JSONArray authorResults = localNews.getJSONArray("tags");
+                String author = "No Author!";
+                JSONObject localNews = currentNews.getJSONObject(i);
 
-                News news1 = new News(name, url, date, author);
-                news.add(news1);
+               String name = localNews.getString("webTitle");
+               String url = localNews.getString("webUrl");
+                String date = localNews.getString("webPublicationDate");
+
+                JSONArray authorResults = localNews.getJSONArray("tags");
+                if (authorResults == null) {
+                    author = " ";
+                } else {
+                    for (int s = 0; s < authorResults.length(); s++) {
+                        JSONObject currentInfo = authorResults.getJSONObject(s);
+
+                        author = currentInfo.getString("webTitle");
+                        //JSONArray authorResults = localNews.getJSONArray("tags");
+
+                        News news1 = new News(name, url, date, author);
+                        news.add(news1);
+                    }
+                }
+
+
+
+               // JSONArray authorResults = localNews.getJSONArray("tags");
+
+                //News news1 = new News(name, url, date, author);
+                //news.add(news1);
             }
 
-            JSONArray authorResults = localNews.getJSONArray("tags");
+           /* JSONArray authorResults = localNews.getJSONArray("tags");
 
             if (authorResults == null) {
                 author = " ";
@@ -145,7 +156,7 @@ public class QueryUtils {
                     author = currentInfo.getString("webTitle");
 
                 }
-            }
+            }*/
 
         } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing the news JSON results", e);
