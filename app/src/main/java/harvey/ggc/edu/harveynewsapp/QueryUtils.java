@@ -21,7 +21,8 @@ import java.util.List;
 public class QueryUtils {
 
     private static final String LOG_TAG = QueryUtils.class.getName();
-    private static final String SAMPLE_JSON_RESPONSE = "http://content.guardianapis.com/search?q=debates&api-key=test&show-tags=contributor";
+    private static final String SAMPLE_JSON_RESPONSE = "https://content.guardianapis.com/search?api-key=8790b10f-4581-4c81-9927-38d186e5e689&show-tags=contributor";
+            //old url "http://content.guardianapis.com/search?q=debates&api-key=test&show-tags=contributor";
 
     private QueryUtils() {
     }
@@ -49,9 +50,8 @@ public class QueryUtils {
         return url;
     }
 
-
     public static String makeHttpRequest(URL url) throws IOException {
-        Log.i(LOG_TAG, "incoming url is " + "https://content.guardianapis.com/search?api-key=8790b10f-4581-4c81-9927-38d186e5e689");
+       // Log.i(LOG_TAG, "incoming url is " + "https://content.guardianapis.com/search?api-key=8790b10f-4581-4c81-9927-38d186e5e689");
         String jsonResponse = "";
         if (url == null) {
             return jsonResponse;
@@ -113,13 +113,13 @@ public class QueryUtils {
             JSONObject baseJSONResponseResult = baseJSONResponse.getJSONObject("response");
 
             JSONArray currentNews = baseJSONResponseResult.getJSONArray("results");
-           // JSONObject localNews = null;
+
             for (int i = 0; i < currentNews.length(); i++) {
                 String author = "No Author!";
                 JSONObject localNews = currentNews.getJSONObject(i);
 
-               String name = localNews.getString("webTitle");
-               String url = localNews.getString("webUrl");
+                String name = localNews.getString("webTitle");
+                String url = localNews.getString("webUrl");
                 String date = localNews.getString("webPublicationDate");
 
                 JSONArray authorResults = localNews.getJSONArray("tags");
@@ -130,33 +130,12 @@ public class QueryUtils {
                         JSONObject currentInfo = authorResults.getJSONObject(s);
 
                         author = currentInfo.getString("webTitle");
-                        //JSONArray authorResults = localNews.getJSONArray("tags");
 
-                        News news1 = new News(name, url, date, author);
+                        News news1 = new News(name, author, date, url);
                         news.add(news1);
                     }
                 }
-
-
-
-               // JSONArray authorResults = localNews.getJSONArray("tags");
-
-                //News news1 = new News(name, url, date, author);
-                //news.add(news1);
             }
-
-           /* JSONArray authorResults = localNews.getJSONArray("tags");
-
-            if (authorResults == null) {
-                author = " ";
-            } else {
-                for (int s = 0; s < authorResults.length(); s++) {
-                    JSONObject currentInfo = authorResults.getJSONObject(s);
-
-                    author = currentInfo.getString("webTitle");
-
-                }
-            }*/
 
         } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing the news JSON results", e);

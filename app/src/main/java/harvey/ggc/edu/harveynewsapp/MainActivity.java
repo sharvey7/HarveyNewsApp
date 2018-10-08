@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final String LOG_TAG = MainActivity.class.getName();
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mAdapter;
-    private static final String USGS_REQUEST_URL = "http://content.guardianapis.com/search?q=debates&api-key=test&show-tags=contributor";
+    private static final String USGS_REQUEST_URL = "https://content.guardianapis.com/search?api-key=8790b10f-4581-4c81-9927-38d186e5e689&show-tags=contributor";
+    //old URL =         "http://content.guardianapis.com/search?q=debates&api-key=test&show-tags=contributor";
     private TextView mEmptyStateTextView;
 
     @Override
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
         } else {
-
+                mEmptyStateTextView.setText(R.string.connection);
         }
     }
 
@@ -69,16 +70,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
 
+        mEmptyStateTextView.setText(R.string.empty);
         mAdapter.clear();
         if (news != null && !news.isEmpty()) {
             mAdapter.addAll(news);
-            mEmptyStateTextView.setText(R.string.info);
+
         }
     }
 
     @Override
     public void onLoaderReset(Loader<List<News>> Loader) {
-        mEmptyStateTextView.setText(R.string.no_internet_connection);
         mAdapter.clear();
     }
 }
